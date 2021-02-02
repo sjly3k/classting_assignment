@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import common from "./common";
+import {firebaseReducer} from "react-redux-firebase";
+import {firestoreReducer} from "redux-firestore";
 import votes from "./votes";
 
 export default combineReducers({
-	common,
-	votes
+	votes,
+	firebase : firebaseReducer,
+	firestore : firestoreReducer
 })

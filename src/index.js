@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, createStore, compose} from "redux";
 
 import firebase from 'firebase/app';
 import {
@@ -13,8 +13,13 @@ import fbConfig from './config/fbConfig';
 import {Provider} from "react-redux";
 
 import App from './App';
+import rootReducer from './store/modules';
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const devTools =
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+
+const store = createStore(rootReducer, compose(applyMiddleware(thunk), devTools));
 
 const rrfProps = {
     firebase,
@@ -22,6 +27,8 @@ const rrfProps = {
     dispatch: store.dispatch,
     createFirestoreInstance,
 };
+
+console.log(store)
 
 ReactDOM.render(
   <Provider store={store}>

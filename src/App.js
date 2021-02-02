@@ -1,8 +1,9 @@
 import './App.css';
+import VoteItemList from "./components/VoteItemList";
 
 const App = () => {
   return (
-    <div>hi</div>
+    <VoteItemList />
   );
 }
 

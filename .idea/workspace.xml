@@ -19,14 +19,25 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7feb1864-2147-4c68-ba6c-8e6a9a30815d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/config/fbConfig.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/modules/common.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/modules/index.js" afterDir="false" />
+    <list default="true" id="7feb1864-2147-4c68-ba6c-8e6a9a30815d" name="Default Changelist" comment="Feature : Setup Firebase Settings, Vote Redux Setting">
+      <change afterPath="$PROJECT_DIR$/src/components/Authentication.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/modules/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/globalStyles.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/localStorage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Button.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Button.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Input.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Input.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Item.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Item.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/VoteItemList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VoteItemList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useInput.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/modules/votes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/modules/votes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,10 +65,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
@@ -72,8 +88,32 @@
       <option name="presentableId" value="Default" />
       <updated>1612234927751</updated>
       <workItem from="1612234928892" duration="1768000" />
-      <workItem from="1612244890204" duration="5735000" />
+      <workItem from="1612244890204" duration="10374000" />
+      <workItem from="1612283242037" duration="13068000" />
+      <workItem from="1612337880364" duration="26376000" />
     </task>
+    <task id="LOCAL-00001" summary="Feature : Setup Firebase Settings, Vote Redux Setting">
+      <created>1612251127169</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1612251127169</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Feature : Vote Related Reducer all Fixed // Add : Firebase Rule">
+      <created>1612289507638</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612289507638</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Feature : Handle Input Change // Add : Input, Button, Form Components">
+      <created>1612318447310</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1612318447310</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -89,19 +129,50 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Feature : Setup Firebase Settings, Vote Redux Setting" />
+    <MESSAGE value="Feature : Vote Related Reducer all Fixed" />
+    <MESSAGE value="Feature : Vote Related Reducer all Fixed // Add : Firebase Rule" />
+    <MESSAGE value="Feature : Handle Input Change // Add : Input, Button, Form Components" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feature : Handle Input Change // Add : Input, Button, Form Components" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="392" y="156" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1612235384409">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="132" y="-888" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1612331201610">
+      <screen x="-288" y="-1080" width="1920" height="1080" />
+    </state>
+    <state x="132" y="-888" key="#com.intellij.execution.impl.EditConfigurationsDialog/-288.-1080.1920.1080/0.0.1440.900@-288.-1080.1920.1080" timestamp="1612331201610" />
+    <state x="2485" y="-886" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1612362879386">
+      <screen x="1440" y="-1260" width="3840" height="2160" />
     </state>
     <state x="392" y="156" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900/-960.196.960.704@0.0.1440.900" timestamp="1612235384409" />
+    <state x="2485" y="-886" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900/1440.-1260.3840.2160@1440.-1260.3840.2160" timestamp="1612362879386" />
+    <state x="2744" y="-632" key="SettingsEditor" timestamp="1612352571035">
+      <screen x="1440" y="-1260" width="3840" height="2160" />
+    </state>
+    <state x="364" y="-903" key="SettingsEditor/-288.-1080.1920.1080/0.0.1440.900@-288.-1080.1920.1080" timestamp="1612329950519" />
+    <state x="2744" y="-632" key="SettingsEditor/0.0.1440.900/1440.-1260.3840.2160@1440.-1260.3840.2160" timestamp="1612352571035" />
+    <state x="2360" y="-832" key="Vcs.Push.Dialog.v2" timestamp="1612318452844">
+      <screen x="1440" y="-1260" width="3840" height="2160" />
+    </state>
+    <state x="172" y="-866" key="Vcs.Push.Dialog.v2/-288.-1080.1920.1080/0.0.1440.900@-288.-1080.1920.1080" timestamp="1612251128999" />
+    <state x="2360" y="-832" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.-1260.3840.2160@1440.-1260.3840.2160" timestamp="1612318452844" />
     <state x="100" y="128" width="1240" height="672" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1612235907820">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
     <state x="100" y="128" width="1240" height="672" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.25.1440.875/-960.221.960.679@0.25.1440.875" timestamp="1612235907820" />
+    <state x="2791" y="-674" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1612286354856">
+      <screen x="1440" y="-1260" width="3840" height="2160" />
+    </state>
+    <state x="2791" y="-674" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1440.900/1440.-1260.3840.2160@1440.-1260.3840.2160" timestamp="1612286354856" />
     <state x="253" y="-288" key="run.anything.popup" timestamp="1612247050874">
       <screen x="-288" y="-1080" width="1920" height="1080" />
     </state>
     <state x="253" y="-288" key="run.anything.popup/-288.-1080.1920.1080/0.0.1440.900@-288.-1080.1920.1080" timestamp="1612247050874" />
+    <state x="2941" y="-756" width="838" height="1032" key="search.everywhere.popup" timestamp="1612362606449">
+      <screen x="1440" y="-1260" width="3840" height="2160" />
+    </state>
+    <state x="2941" y="-756" width="838" height="1032" key="search.everywhere.popup/0.0.1440.900/1440.-1260.3840.2160@1440.-1260.3840.2160" timestamp="1612362606449" />
   </component>
 </project>

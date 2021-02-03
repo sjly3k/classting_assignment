@@ -3,9 +3,13 @@ import styled, { css } from "styled-components";
 import PropTypes from 'prop-types';
 
 const Container = styled.button`
-	width: 30%;
-	margin : 5px;
+	width: 100%;
 	padding : 10px 10px;
+	border: none;
+	border-radius: 10px;
+	color : white;
+	font-weight: bold;
+	background-color: purple;
 	${props =>
 	props.role === "add" &&
 	css`
@@ -14,12 +18,12 @@ const Container = styled.button`
 	${props =>
 	props.role === "update" &&
 	css`
-		background-color: aquamarine;
+		background-color: #F2A516;
 	`}
 	${props =>
 	props.role === "remove" &&
 	css`
-		background-color: red;
+		background-color: #F21D44;
 	`}
 `
 const Button = (

@@ -18,6 +18,10 @@ const REMOVE_VOTE = 'votes/REMOVE_VOTE'
 const REMOVE_VOTE_SUCCESS = 'votes/REMOVE_VOTE_SUCCESS'
 const REMOVE_VOTE_FAILURE = 'votes/REMOVE_VOTE_FAILURE'
 
+const VOTING_ACTION = 'votes/VOTING_ACTION';
+const VOTING_ACTION_SUCCESS = 'votes/VOTING_ACTION_SUCCESS';
+const VOTING_ACTION_FAILURE = 'votes/VOTING_ACTION_FAILURE';
+
 const getVotes = () => {
 	return (dispatch) => {
 		dispatch({type : GET_VOTES})
@@ -96,26 +100,29 @@ const removeVote = (id) => {
 	}
 }
 
+const countVoting = (docId, newOption) => {
+	return (dispatch) => {
+		dispatch({type : VOTING_ACTION})
+		firebase
+			.firestore()
+			.collection('projects')
+			.doc(docId)
+			.update({
+				options : newOption
+			})
+			.then(() => {
+				dispatch({type : VOTING_ACTION_SUCCESS, payload : docId, newOption})
+			})
+			.catch((error) => {
+				dispatch({type : VOTING_ACTION_FAILURE, payload : error})
+			})
+	}
+}
+
 const initialState = {
-	votes : [{
-		id : "vd4gkVUdTOncuAVK88j1",
-		name : "James",
-		question : "Test Question 1",
-		options : [
-			"Test Option 1",
-			"Test Option 2",
-			"Test Option 3",
-		],
-		startDate : {
-			nanoseconds: 0,
-			seconds: 1612852562
-		},
-		endDate : {
-			nanoseconds : 0,
-			seconds : 1612247773
-		}
-	}],
+	votes : [],
 	error : null,
+	voteError : null,
 }
 
 export default handleActions({
@@ -140,13 +147,12 @@ export default handleActions({
 		error : null
 	}),
 	[UPDATE_VOTE_SUCCESS] : (state, { payload : id, question } ) => {
-		console.log(id, question)
 		return ({
 			...state,
 			error: null,
-			votes: state.votes.map(item => item.id === id ? {
-				...item, question
-			} : item),
+			votes: state.votes.map(vote => vote.id === id ? {
+				...vote, question
+			} : vote),
 		})
 	},
 	[UPDATE_VOTE_FAILURE] : (state, { payload : error }) => ({
@@ -185,6 +191,23 @@ export default handleActions({
 		...state,
 		error : error
 	}),
+
+	// ==========================================
+	[VOTING_ACTION] : (state) => ({
+		...state,
+		voteError : null
+	}),
+	[VOTING_ACTION_SUCCESS] : (state, { payload : docId, newOption }) => ({
+		...state,
+		votes : state.votes.map(vote => vote.id === docId ? {
+			...vote, options : newOption,
+		} : vote),
+		voteError : null
+	}),
+	[VOTING_ACTION_FAILURE] : (state, { payload : error }) => ({
+		...state,
+		voteError : error
+	}),
 }, initialState)
 
-export { getVotes, addVote, removeVote, updateVote }
+export { getVotes, addVote, removeVote, updateVote, countVoting }

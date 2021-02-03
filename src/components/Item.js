@@ -1,5 +1,7 @@
 import React from 'react';
-import styled, {css} from "styled-components"
+import styled from "styled-components"
+import Button from "./Button";
+import PropTypes from 'prop-types';
 
 const VoteItemWrapper = styled.div`
 	display: flex;
@@ -14,28 +16,8 @@ const HandleButtonWrapper = styled.div`
 
 `
 
-const HandleButton = styled.button`
-	margin : 5px;
-	padding : 10px 10px;
-	${props =>
-	props.add &&
-	css`
-		background-color: mediumpurple;
-	`}
-	${props =>
-	props.update &&
-	css`
-		background-color: aquamarine;
-	`}
-	${props =>
-	props.remove &&
-	css`
-		background-color: red;
-	`}
-`
 const Item = ({
 	vote,
-	handleAdd,
 	handleRemove,
 	handleUpdate
 }) => {
@@ -44,12 +26,16 @@ const Item = ({
 		<VoteItemWrapper>
 			<VoteItem key={id}>{id} {question}, {options}, {name}, {startDate.seconds}, {endDate.seconds} </VoteItem>
 			<HandleButtonWrapper>
-				<HandleButton onClick={handleAdd} add>Handle Add</HandleButton>
-				<HandleButton onClick={handleUpdate} id={id} update>Handle Update</HandleButton>
-				<HandleButton onClick={handleRemove} id={id} remove>Handle Remove</HandleButton>
+				<Button onClick={handleUpdate} value={"Handle Update"} id={id} role={"update"}/>
+				<Button onClick={handleRemove} value={"Handle Remove"} id={id} role={"remove"}/>
 			</HandleButtonWrapper>
 		</VoteItemWrapper>
 	);
 };
 
+Item.propTypes = {
+	vote : PropTypes.any.isRequired,
+	handleRemove : PropTypes.func,
+	handleUpdate : PropTypes.func,
+}
 export default Item;

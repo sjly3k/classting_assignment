@@ -5,20 +5,42 @@ import {firestoreConnect} from "react-redux-firebase";
 import { getVotes, addVote, removeVote, updateVote } from "../store/modules/votes"
 import {useInput} from "../hooks/useInput";
 import Item from "./Item";
+import NewItem from "./NewItem";
 
 const VoteItemList = props => {
 
-	const { getVotes, removeVote, updateVote, addVote, votes } = props;
-	const question = useInput('');
-	const option = useInput('')
-	const [options, setOptions] = useState([]);
-	const [startDate, setStartDate] = useState('');
-	const [endDate, setEndDate] = useState('');
+	const { getVotes, votes } = props;
+	const [state, setState] = useState({
+		question : '',
+		options : ['', '', ''],
+		startDate : '',
+		endDate : '',
+	})
 
 	useEffect(() => {
 		getVotes();
 	}, [getVotes])
 
+	const handleInputChange = (i=null) => (e) => {
+		const value = e.target.value;
+		const name = e.target.name;
+
+		console.log(i, value, name)
+		if (name === `option-${i + 1}`) {
+			let options = [...state.options];
+			options[i] = value;
+			setState({
+				...state,
+				options
+			})
+		}
+		else {
+			setState({
+				...state,
+				[name]: value
+			})
+		}
+	}
 
 	const handleRemove = (e) => {
 		e.preventDefault()
@@ -56,10 +78,18 @@ const VoteItemList = props => {
 		})
 	}
 
+	console.log(state)
+
 	return (
 		<div>
-			<input {...question} placeholder={"질문"}/>
-			<input {...option} placeholder={"옵션"}/>
+			<NewItem
+				handleInputChange={handleInputChange}
+				question={state.question}
+				options={state.options}
+				handleAdd={handleAdd}
+				startDate={state.startDate}
+				endDate={state.endDate}
+			/>
 			{
 				votes && votes.length > 0 ?
 					votes.map(vote => {
@@ -68,7 +98,6 @@ const VoteItemList = props => {
 								vote={vote}
 								handleRemove={handleRemove}
 								handleUpdate={handleUpdate}
-								handleAdd={handleAdd}
 							/>
 						)
 						else return null;

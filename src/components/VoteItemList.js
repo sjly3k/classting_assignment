@@ -137,6 +137,7 @@ const VoteItemList = props => {
 				nanoseconds : 0,
 				seconds : Math.round(new Date().getTime() / 1000) + 100000
 			},
+			description : "Duis mollis, est non commodo luctus, nisi erat porttitor ligula."
 		})
 	}
 
@@ -153,6 +154,7 @@ const VoteItemList = props => {
 			}
 		}
 	}
+
 
 	if (!getStorage("USER_INFO")) return <Redirect to={"/auth"}/>
 	return (

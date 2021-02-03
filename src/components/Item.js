@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components"
 import Button from "./Button";
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
-
+import {Modal} from "@material-ui/core";
+import MakeModal from "./MakeModal";
 
 const VoteItemWrapper = styled.div`
 	display: flex;
@@ -36,11 +38,13 @@ const VoteOptions = styled.div`
 	flex-direction: column;
 	margin-bottom: 10px;
 `
+
 const VoteDate = styled.div`
    margin: 10px 0px;
    font-size: 12px;
    font-weight: 400;
 `
+
 
 const CurrentUsrButtonWrapper = styled.div`
 	margin-bottom: 10px;
@@ -87,50 +91,63 @@ const Item = ({
     currentTime,
 }) => {
 
-	const { id, question, options, user : { email, id : userId }, startDate, endDate} = vote;
+	const { id, question, options, user : { email, id : userId }, description, startDate, endDate} = vote;
 	const newStartDate = new Date(startDate.seconds * 1000)
 	const newEndDate = new Date(endDate.seconds * 1000)
 
-	console.log(vote)
+	const [open, setOpen] = useState(false);
+
+	const handleModalClick = () => {
+		setOpen(!open);
+	}
+
+	const text = {
+		question : question,
+		description : description
+	}
+
 	return (
-		<VoteItemWrapper>
-			<VoteItem key={id}>
-				<VoteHeader>
-					<VoteQuestion>{question}</VoteQuestion>
-					<EditIcon />
-				</VoteHeader>
-				<VoteContinuing>{email}</VoteContinuing>
-				<VoteContinuing>
-				{
-					currentTime <= newEndDate ? "투표 진행중" : "투표 종료"
-				}
-				</VoteContinuing>
-				<VoteDate>{newStartDate.toLocaleString()} ~ {newEndDate.toLocaleString()}</VoteDate>
-				<VoteOptions>
+		<React.Fragment>
+			<VoteItemWrapper onClick={handleModalClick}>
+				<MakeModal open={open} onClose={handleModalClick} text={text}/>
+				<VoteItem key={id}>
+					<VoteHeader>
+						<VoteQuestion>{question}</VoteQuestion>
+						<EditIcon />
+					</VoteHeader>
+					<VoteContinuing>{email}</VoteContinuing>
+					<VoteContinuing>
 					{
-						options.map((option) => {
-							return (
-								<OptionWrapper id={id} data-optionid={option.id} onClick={handleVoting}>
-									<span className={"title"}>{option.title}</span>
-									<span className={"count"}>{option.voteUser.length}</span>
-								</OptionWrapper>
-							)
-						})
+						currentTime <= newEndDate ? "투표 진행중" : "투표 종료"
 					}
-				</VoteOptions>
-			</VoteItem>
-			<HandleButtonWrapper>
-			{
-				currentUserId === userId ? (
-					<CurrentUsrButtonWrapper>
-						<Button onClick={handleUpdate} value={"Update Question"} id={id} role={"update"}/>
-						<Button onClick={handleRemove} value={"Remove Vote"} id={id} role={"remove"}/>
-					</CurrentUsrButtonWrapper>
-				) : (null)
-			}
-				<Button onClick={handleSave} value={"Save Vote"} id={id} role={"save"}/>
-			</HandleButtonWrapper>
-		</VoteItemWrapper>
+					</VoteContinuing>
+					<VoteDate>{newStartDate.toLocaleString()} ~ {newEndDate.toLocaleString()}</VoteDate>
+					<VoteOptions>
+						{
+							options.map((option) => {
+								return (
+									<OptionWrapper id={id} data-optionid={option.id} onClick={handleVoting}>
+										<span className={"title"}>{option.title}</span>
+										<span className={"count"}>{option.voteUser.length}</span>
+									</OptionWrapper>
+								)
+							})
+						}
+					</VoteOptions>
+				</VoteItem>
+				<HandleButtonWrapper>
+				{
+					currentUserId === userId ? (
+						<CurrentUsrButtonWrapper>
+							<Button onClick={handleUpdate} value={"Update Question"} id={id} role={"update"}/>
+							<Button onClick={handleRemove} value={"Remove Vote"} id={id} role={"remove"}/>
+						</CurrentUsrButtonWrapper>
+					) : (null)
+				}
+					<Button onClick={handleSave} value={"Save Vote"} id={id} role={"save"}/>
+				</HandleButtonWrapper>
+			</VoteItemWrapper>
+		</React.Fragment>
 	);
 };
 

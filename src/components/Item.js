@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import styled from "styled-components"
 import Button from "./Button";
 import PropTypes from 'prop-types';
-import EditIcon from '@material-ui/icons/Edit';
 import MakeModal from "./MakeModal";
+import Input from "./Input";
 
 const VoteItemWrapper = styled.div`
 	display: flex;
@@ -83,14 +83,30 @@ const ModalSection = styled.div`
 	width: 100%;
 `
 
+const QuestionEditWrapper = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	
+	button {
+		margin-top: 10px;
+	}
+	button, input {
+		width: 100%;
+	}
+`
+
 const Item = ({
 	vote,
+	editedQuestionId,
 	handleRemove,
 	handleUpdate,
     handleVoting,
     handleSave,
 	currentUserId,
     currentTime,
+	handleQuestionChange,
+    handleSubmitNewQuestion
 }) => {
 
 	const { id, question, options, user : { email, id : userId }, startDate, endDate} = vote;
@@ -109,8 +125,12 @@ const Item = ({
 			<VoteItemWrapper>
 				<VoteItem key={id}>
 					<VoteHeader>
-						<VoteQuestion>{question}</VoteQuestion>
-						<EditIcon />
+						{id === editedQuestionId ? (
+							<QuestionEditWrapper>
+								<Input onChange={handleQuestionChange} placeholder={question}/>
+								<Button onClick={handleSubmitNewQuestion} value={"Edit Complete"}></Button>
+							</QuestionEditWrapper>
+						) : (<VoteQuestion>{question}</VoteQuestion>)}
 					</VoteHeader>
 					<VoteContinuing>{email}</VoteContinuing>
 					<VoteContinuing>

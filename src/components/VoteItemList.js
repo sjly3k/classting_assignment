@@ -8,7 +8,7 @@ import NewItem from "./NewItem";
 import styled from "styled-components";
 import {Redirect} from "react-router-dom";
 import {signOut} from "../store/modules/auth";
-import {addSavedVote, getStorage, removeSavedVote} from "../utils/localStorage";
+import {addSavedVote, getStorage, removeSavedVote, updateSavedVote} from "../utils/localStorage";
 import {toast} from "react-toastify";
 
 const dateformat = require("dateformat");
@@ -24,17 +24,16 @@ const VoteItemList = props => {
 	const [savedVote, setSavedVote] = useState(null);
 	const [startDate, setStartDate] = useState(dateformat(new Date(), "isoDate"));
 	const [endDate, setEndDate] = useState(dateformat(new Date(), "isoDate"))
+	const [editedQuestionId, setEditedQuestionId] = useState("");
+	const [newQuestion, setNewQuestion] = useState("")
+
 	// TO-DO :
 	// Modal로 투표내용 보기, (0)
 	// 종료시간이 지난 투표는 클릭 못하게, (0)
 	// 투표 항목 이름 변경
 	// 투표 질문 add 하기 (0)
 	// 시작 / 종료 선택하게 하기 (0)
-
-	const [isEditQuestion, setIsEditQuestion] = useState(false);
 	const currentTime = Date.now();
-
-	console.log(state)
 
 	useEffect(() => {
 		async function getSavedVote() {
@@ -52,7 +51,6 @@ const VoteItemList = props => {
 		const value = e.target.value;
 		const name = e.target.name;
 
-		console.log(i, value, name)
 		if (name === `option-${i + 1}`) {
 			let options = [...state.options];
 			options[i] = {
@@ -79,6 +77,11 @@ const VoteItemList = props => {
 		})
 	}
 
+	const handleQuestionChange = (e) => {
+		const value = e.target.value
+		setNewQuestion(value);
+	}
+
 	const handleRemove = (e) => {
 		e.preventDefault()
 		const id = e.target.id
@@ -88,11 +91,22 @@ const VoteItemList = props => {
 	}
 
 	const handleUpdate = (e) => {
-		console.log(e.target.id)
 		const id = e.target.id;
-		const input = e.target.input;
+		setEditedQuestionId(id);
+	}
 
-		props.updateVote(id, "Change 5")
+	const handleSubmitNewQuestion = () => {
+		if (editedQuestionId !== "" && newQuestion !== "") {
+			props.updateVote(editedQuestionId, newQuestion)
+			setEditedQuestionId("")
+
+			let newVote = votes.find(vote => vote.id === editedQuestionId)
+			newVote = {...newVote, question: newQuestion}
+			if (newVote) {
+				updateSavedVote(editedQuestionId, newVote)
+				setSavedVote(getStorage("USER_SAVE_VOTE"));
+			}
+		}
 	}
 
 	const handleAddOption = e => {
@@ -148,6 +162,13 @@ const VoteItemList = props => {
 					)
 				})
 				props.countVoting(docId, newOption)
+
+				let newVote = votes.find(vote => vote.id === docId)
+				newVote = {...newVote, options: newOption}
+				if (newVote) {
+					updateSavedVote(docId, newVote)
+					setSavedVote(getStorage("USER_SAVE_VOTE"));
+				}
 			}
 		}
 
@@ -194,7 +215,7 @@ const VoteItemList = props => {
 		const savedVote = getStorage("USER_SAVE_VOTE");
 		if (newVote) {
 			if (savedVote.find(vote => vote.id === id)) {
-				removeSavedVote(newVote);
+				removeSavedVote(id);
 				toast.info("투표 저장을 취소하셨습니다.")
 			} else {
 				addSavedVote(newVote);
@@ -209,20 +230,28 @@ const VoteItemList = props => {
 	return (
 		<React.Fragment>
 			<Header>
+				<h3>{auth.email}</h3>
 				<span onClick={handleLogout}>로그아웃</span>
 			</Header>
 			<VoteItemListWrapper>
-				<NewItem
-					handleInputChange={handleInputChange}
-					handleOptionChange={handleOptionChange}
-					handleAddOption={handleAddOption}
-					question={state.question}
-					options={state.options}
-					handleAdd={handleAdd}
-					description={state.description}
-					setStartDate={setStartDate}
-					setEndDate={setEndDate}
-				/>
+				<NewItemWrapper>
+					<div>
+						<Title>
+							새로운 투표 만들기
+						</Title>
+					</div>
+					<NewItem
+						handleInputChange={handleInputChange}
+						handleOptionChange={handleOptionChange}
+						handleAddOption={handleAddOption}
+						question={state.question}
+						options={state.options}
+						handleAdd={handleAdd}
+						description={state.description}
+						setStartDate={setStartDate}
+						setEndDate={setEndDate}
+					/>
+				</NewItemWrapper>
 				<ItemListWrapper>
 					<Title>
 						내가 저장한 투표
@@ -233,6 +262,9 @@ const VoteItemList = props => {
 								savedVote.map(vote => {
 									if (vote) return (
 										<Item
+											editedQuestionId={editedQuestionId}
+											handleSubmitNewQuestion={handleSubmitNewQuestion}
+											handleQuestionChange={handleQuestionChange}
 											vote={vote}
 											handleRemove={handleRemove}
 											handleUpdate={handleUpdate}
@@ -257,6 +289,9 @@ const VoteItemList = props => {
 							votes.map(vote => {
 								if (vote) return (
 									<Item
+										editedQuestionId={editedQuestionId}
+										handleSubmitNewQuestion={handleSubmitNewQuestion}
+										handleQuestionChange={handleQuestionChange}
 										vote={vote}
 										handleRemove={handleRemove}
 										handleUpdate={handleUpdate}
@@ -278,6 +313,7 @@ const VoteItemList = props => {
 
 const Header = styled.div`
 	display: flex;
+	align-items: center;
 	justify-content: flex-end;
 	height: 60px;
 	
@@ -298,6 +334,8 @@ const Title = styled.h2`
 `
 
 const ItemListWrapper = styled.div`
+	padding-top: 30px;
+	border-top : 3px solid gray;
 	width: 100%;
 	margin-bottom: 20px;
 `
@@ -312,10 +350,16 @@ const VoteItemListWrapper = styled.div`
 
 const ItemList = styled.div`
 	display: flex;
-	//justify-content: center;
 	flex : 0 0 25%;
 	flex-wrap: wrap;
 	min-width: 420px;
+`
+
+const NewItemWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 `
 
 const mapStateToProps = state => {

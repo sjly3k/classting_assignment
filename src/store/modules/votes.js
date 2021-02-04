@@ -1,5 +1,6 @@
 import {handleActions} from "redux-actions";
 import firebase from 'firebase/app';
+import {toast} from "react-toastify";
 
 // 액션
 const GET_VOTES = 'votes/GET_VOTES'
@@ -56,9 +57,11 @@ const addVote = (vote) => {
 					id : docRef.id
 				}
 				dispatch({type : ADD_VOTE_SUCCESS, payload : addedVote})
+				toast.info("새로운 투표를 생성하셨습니다.")
 			})
 			.catch((error) => {
 				dispatch({type : ADD_VOTE_FAILURE, payload : error})
+				toast.error("투표를 추가할 때 문제가 발생했습니다.")
 			})
 	}
 }
@@ -75,9 +78,11 @@ const updateVote = (id, question) => {
 			})
 			.then(() => {
 				dispatch({type : UPDATE_VOTE_SUCCESS, payload : id, question})
+				toast.success("투표 제목을 변경하셨습니다.")
 			})
 			.catch((error) => {
 				dispatch({type : UPDATE_VOTE_FAILURE, payload : error})
+				toast.error("투표 제목을 변경할 때 문제가 발생했습니다.")
 			})
 	}
 }
@@ -92,10 +97,12 @@ const removeVote = (id) => {
 			.delete()
 			.then(() => {
 				dispatch({type : REMOVE_VOTE_SUCCESS, payload : id});
+				toast.info("투표를 삭제하셨습니다.")
 			})
 			.catch((error) => {
 				console.log(error)
 				dispatch({type : REMOVE_VOTE_FAILURE, payload : error})
+				toast.error("투표를 삭제할 때 문제가 발생했습니다.")
 			})
 	}
 }
@@ -112,9 +119,11 @@ const countVoting = (docId, newOption) => {
 			})
 			.then(() => {
 				dispatch({type : VOTING_ACTION_SUCCESS, payload : docId, newOption})
+				toast.info("투표에 참여해주셔서 감사합니다.")
 			})
 			.catch((error) => {
 				dispatch({type : VOTING_ACTION_FAILURE, payload : error})
+				toast.error("투표에 참여할 때 문제가 발생했습니다.")
 			})
 	}
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import thunk from 'redux-thunk';
 import {applyMiddleware, createStore, compose} from "redux";
+import "react-datetime/css/react-datetime.css";
 
 import firebase from 'firebase/app';
 import {

@@ -10,6 +10,8 @@ const Container = styled.button`
 	color : white;
 	font-weight: bold;
 	background-color: purple;
+	margin-bottom: 10px;
+	cursor: pointer;
 	${props =>
 	props.role === "add" &&
 	css`

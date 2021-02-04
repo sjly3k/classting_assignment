@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import styled from "styled-components"
 import Button from "./Button";
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import EditIcon from '@material-ui/icons/Edit';
-import {Modal} from "@material-ui/core";
 import MakeModal from "./MakeModal";
 
 const VoteItemWrapper = styled.div`
@@ -81,6 +79,10 @@ const OptionWrapper = styled.div`
 	}
 `
 
+const ModalSection = styled.div`
+	width: 100%;
+`
+
 const Item = ({
 	vote,
 	handleRemove,
@@ -91,25 +93,20 @@ const Item = ({
     currentTime,
 }) => {
 
-	const { id, question, options, user : { email, id : userId }, description, startDate, endDate} = vote;
+	const { id, question, options, user : { email, id : userId }, startDate, endDate} = vote;
 	const newStartDate = new Date(startDate.seconds * 1000)
 	const newEndDate = new Date(endDate.seconds * 1000)
 
 	const [open, setOpen] = useState(false);
 
-	const handleModalClick = () => {
+	const handleModalClick = (e) => {
+		console.log(e.target)
 		setOpen(!open);
-	}
-
-	const text = {
-		question : question,
-		description : description
 	}
 
 	return (
 		<React.Fragment>
-			<VoteItemWrapper onClick={handleModalClick}>
-				<MakeModal open={open} onClose={handleModalClick} text={text}/>
+			<VoteItemWrapper>
 				<VoteItem key={id}>
 					<VoteHeader>
 						<VoteQuestion>{question}</VoteQuestion>
@@ -118,7 +115,9 @@ const Item = ({
 					<VoteContinuing>{email}</VoteContinuing>
 					<VoteContinuing>
 					{
-						currentTime <= newEndDate ? "투표 진행중" : "투표 종료"
+						currentTime <= newEndDate ?
+							(currentTime < newStartDate ? "투표 예정" : "투표 진행중")
+							: "투표 종료"
 					}
 					</VoteContinuing>
 					<VoteDate>{newStartDate.toLocaleString()} ~ {newEndDate.toLocaleString()}</VoteDate>
@@ -146,6 +145,11 @@ const Item = ({
 				}
 					<Button onClick={handleSave} value={"Save Vote"} id={id} role={"save"}/>
 				</HandleButtonWrapper>
+
+				<ModalSection onClick={handleModalClick}>
+					<Button onClick={handleModalClick} value={"See Description"}/>
+					<MakeModal open={open} onClose={handleModalClick} vote={vote}/>
+				</ModalSection>
 			</VoteItemWrapper>
 		</React.Fragment>
 	);

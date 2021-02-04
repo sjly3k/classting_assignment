@@ -16,9 +16,9 @@ export const addSavedVote = (vote) => {
 	setStorage(LOCAL_STORAGE_SAVE, nextSavedVotes);
 }
 
-export const removeSavedVote = (removeVote) => {
+export const removeSavedVote = (removeVoteId) => {
 	const savedVotes = getStorage(LOCAL_STORAGE_SAVE);
-	const nextSavedVotes = savedVotes.filter((vote) => vote.id !== removeVote.id);
+	const nextSavedVotes = savedVotes.filter((vote) => vote.id !== removeVoteId);
 
 	setStorage(LOCAL_STORAGE_SAVE, nextSavedVotes)
 }

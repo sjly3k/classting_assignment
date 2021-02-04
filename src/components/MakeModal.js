@@ -31,23 +31,77 @@ const VoteQuestion = styled.h1`
 `
 
 const VoteDescription = styled.p`
-	margin-top: 10px;
+	margin: 10px 0;
 	line-height: 20px;
+	
+`
+
+const OptionWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding : 12px;
+	
+	background-color: #D96459;
+	color : white;
+	margin-bottom: 5px;
+	border-radius: 10px;
+	
+	span {
+		pointer-events: none;
+	}
+	
+	span.title {
+		font-weight: 600;
+	}
+`
+
+const OptionDetailWrapper = styled.div`
+	
+`
+
+const UserInfo = styled.div`
+	margin-bottom: 5px;
+`
+
+const OptionParticipant = styled.div`
+	margin-bottom: 10px;
 `
 
 const MakeModal = (props) => {
 
-	console.log(props)
 	const classes = useStyles();
 	const [modalStyle] = useState(getModalStyle);
 
 	return (
 		<Modal open={props.open} onClose={props.handleModalClick}>
 			<div style={modalStyle} className={classes.paper}>
-				<VoteQuestion>{props.text.question}</VoteQuestion>
+				<VoteQuestion>{props.vote.question}</VoteQuestion>
 				<VoteDescription>
-					{props.text.description}
+					{props.vote.description}
 				</VoteDescription>
+				{
+					props.vote.options.map((option) => {
+						return (
+							<OptionDetailWrapper>
+								<OptionWrapper>
+									<span className={"title"}>{option.title}</span>
+									<span className={"count"}>{option.voteUser.length}</span>
+								</OptionWrapper>
+								<OptionParticipant>
+									{
+										option.voteUser.map((user) => {
+											return (
+												<UserInfo>
+													<span>{user.email}</span>
+												</UserInfo>
+											)
+										})
+									}
+								</OptionParticipant>
+							</OptionDetailWrapper>
+						)
+					})
+				}
 			</div>
 		</Modal>
 	);

@@ -15,10 +15,11 @@ const VoteItemWrapper = styled.div`
 	background-color: #F2EDDF;
 	border-radius: 10px;
 	padding : 20px;
+	min-width: 350px;
 `
 
 const VoteItem = styled.div`
-	
+	width: 100%;
 `
 
 const VoteHeader = styled.div`
@@ -35,6 +36,7 @@ const VoteOptions = styled.div`
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 10px;
+	width: 100%;
 `
 
 const VoteDate = styled.div`
@@ -63,7 +65,7 @@ const OptionWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding : 12px;
-	
+	width: 100%;
 	background-color: #D96459;
 	color : white;
 	margin-bottom: 5px;
@@ -98,15 +100,16 @@ const QuestionEditWrapper = styled.div`
 
 const Item = ({
 	vote,
-	editedQuestionId,
 	handleRemove,
-	handleUpdate,
     handleVoting,
     handleSave,
 	currentUserId,
     currentTime,
-	handleQuestionChange,
-    handleSubmitNewQuestion
+      newOptions,
+      editedOptionId,
+      handleUpdateOption,
+      handleOptionTitleChange,
+      handleSubmitNewOptions
 }) => {
 
 	const { id, question, options, user : { email, id : userId }, startDate, endDate} = vote;
@@ -120,17 +123,20 @@ const Item = ({
 		setOpen(!open);
 	}
 
+	function getToday(date){
+		let year = date.getFullYear();
+		let month = ("0" + (1 + date.getMonth())).slice(-2);
+		let day = ("0" + date.getDate()).slice(-2);
+
+		return year + "-" + month + "-" + day;
+	}
+
 	return (
 		<React.Fragment>
 			<VoteItemWrapper>
 				<VoteItem key={id}>
 					<VoteHeader>
-						{id === editedQuestionId ? (
-							<QuestionEditWrapper>
-								<Input onChange={handleQuestionChange} placeholder={question}/>
-								<Button onClick={handleSubmitNewQuestion} value={"Edit Complete"}></Button>
-							</QuestionEditWrapper>
-						) : (<VoteQuestion>{question}</VoteQuestion>)}
+						<VoteQuestion>{question}</VoteQuestion>
 					</VoteHeader>
 					<VoteContinuing>{email}</VoteContinuing>
 					<VoteContinuing>
@@ -140,17 +146,32 @@ const Item = ({
 							: "투표 종료"
 					}
 					</VoteContinuing>
-					<VoteDate>{newStartDate.toLocaleString()} ~ {newEndDate.toLocaleString()}</VoteDate>
+					<VoteDate>{getToday(newStartDate)} ~ {getToday(newEndDate)}</VoteDate>
 					<VoteOptions>
 						{
-							options.map((option) => {
-								return (
-									<OptionWrapper id={id} data-optionid={option.id} onClick={handleVoting}>
-										<span className={"title"}>{option.title}</span>
-										<span className={"count"}>{option.voteUser.length}</span>
-									</OptionWrapper>
-								)
-							})
+							id === editedOptionId ? (
+								options.map((option, index) => {
+									return (
+											<QuestionEditWrapper id={id} data-optionid={option.id}>
+												<Input onChange={handleOptionTitleChange(index)} name={`option-${index}`} placeholder={newOptions[index].title}/>
+											</QuestionEditWrapper>
+									)
+								})
+							) : (
+								options.map((option) => {
+									return (
+										<OptionWrapper id={id} data-optionid={option.id} onClick={handleVoting}>
+											<span className={"title"}>{option.title}</span>
+											<span className={"count"}>{option.voteUser.length}</span>
+										</OptionWrapper>
+									)
+								})
+							)
+						}
+						{
+							id === editedOptionId ?
+								(<Button onClick={handleSubmitNewOptions} value={"Edit Complete"} />)
+								: (null)
 						}
 					</VoteOptions>
 				</VoteItem>
@@ -158,7 +179,7 @@ const Item = ({
 				{
 					currentUserId === userId ? (
 						<CurrentUsrButtonWrapper>
-							<Button onClick={handleUpdate} value={"Update Question"} id={id} role={"update"}/>
+							<Button onClick={handleUpdateOption} value={"Update Option"} id={id} role={"update"}/>
 							<Button onClick={handleRemove} value={"Remove Vote"} id={id} role={"remove"}/>
 						</CurrentUsrButtonWrapper>
 					) : (null)

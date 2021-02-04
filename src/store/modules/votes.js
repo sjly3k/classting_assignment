@@ -66,7 +66,8 @@ const addVote = (vote) => {
 	}
 }
 
-const updateVote = (id, question) => {
+const updateVote = (id, options) => {
+
 	return (dispatch) => {
 		dispatch({type : UPDATE_VOTE});
 		firebase
@@ -74,15 +75,15 @@ const updateVote = (id, question) => {
 			.collection('projects')
 			.doc(id)
 			.update({
-				question
+				options
 			})
 			.then(() => {
-				dispatch({type : UPDATE_VOTE_SUCCESS, payload : id, question})
-				toast.success("투표 제목을 변경하셨습니다.")
+				dispatch({type : UPDATE_VOTE_SUCCESS, payload : id, options})
+				toast.success("투표 옵션들의 제목을 변경하셨습니다.")
 			})
 			.catch((error) => {
 				dispatch({type : UPDATE_VOTE_FAILURE, payload : error})
-				toast.error("투표 제목을 변경할 때 문제가 발생했습니다.")
+				toast.error(`${error} 투표 옵션들의 제목을 변경할 때 문제가 발생했습니다.`)
 			})
 	}
 }
@@ -155,12 +156,12 @@ export default handleActions({
 		...state,
 		error : null
 	}),
-	[UPDATE_VOTE_SUCCESS] : (state, { payload : id, question } ) => {
+	[UPDATE_VOTE_SUCCESS] : (state, { payload : id, options } ) => {
 		return ({
 			...state,
 			error: null,
 			votes: state.votes.map(vote => vote.id === id ? {
-				...vote, question
+				...vote, options
 			} : vote),
 		})
 	},

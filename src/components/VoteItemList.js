@@ -24,8 +24,8 @@ const VoteItemList = props => {
 	const [savedVote, setSavedVote] = useState(null);
 	const [startDate, setStartDate] = useState(dateformat(new Date(), "isoDate"));
 	const [endDate, setEndDate] = useState(dateformat(new Date(), "isoDate"))
-	const [editedQuestionId, setEditedQuestionId] = useState("");
-	const [newQuestion, setNewQuestion] = useState("")
+	const [newOptions, setNewOptions] = useState([]);
+	const [editedOptionId, setEditedOptionId] = useState("")
 
 	// TO-DO :
 	// Modal로 투표내용 보기, (0)
@@ -77,36 +77,12 @@ const VoteItemList = props => {
 		})
 	}
 
-	const handleQuestionChange = (e) => {
-		const value = e.target.value
-		setNewQuestion(value);
-	}
-
 	const handleRemove = (e) => {
 		e.preventDefault()
 		const id = e.target.id
 		props.removeVote(id);
 		removeSavedVote(id);
 		setSavedVote(getStorage("USER_SAVE_VOTE"));
-	}
-
-	const handleUpdate = (e) => {
-		const id = e.target.id;
-		setEditedQuestionId(id);
-	}
-
-	const handleSubmitNewQuestion = () => {
-		if (editedQuestionId !== "" && newQuestion !== "") {
-			props.updateVote(editedQuestionId, newQuestion)
-			setEditedQuestionId("")
-
-			let newVote = votes.find(vote => vote.id === editedQuestionId)
-			newVote = {...newVote, question: newQuestion}
-			if (newVote) {
-				updateSavedVote(editedQuestionId, newVote)
-				setSavedVote(getStorage("USER_SAVE_VOTE"));
-			}
-		}
 	}
 
 	const handleAddOption = e => {
@@ -226,6 +202,42 @@ const VoteItemList = props => {
 		setSavedVote(getStorage("USER_SAVE_VOTE"));
 	}
 
+	const handleUpdateOption = (e) => {
+		const id = e.target.id;
+		const vote = votes.find(vote => vote.id === id);
+
+		if (vote) {
+			setNewOptions(vote.options);
+			setEditedOptionId(id);
+		}
+	}
+
+	const handleOptionTitleChange = (i) => (e) => {
+		const value = e.target.value;
+
+		let tmpOptions = newOptions;
+		tmpOptions[i] = {
+			...tmpOptions[i],
+			title : value,
+		}
+		setNewOptions(tmpOptions)
+	}
+
+	const handleSubmitNewOptions = () => {
+		if (editedOptionId !== "" && newOptions !== []) {
+			props.updateVote(editedOptionId, newOptions, "options")
+			setNewOptions([]);
+
+			let newVote = votes.find(vote => vote.id === editedOptionId)
+			newVote = {...newVote, options : newOptions}
+			if (newVote) {
+				updateSavedVote(editedOptionId, newVote)
+				setSavedVote(getStorage("USER_SAVE_VOTE"));
+			}
+			setEditedOptionId("")
+		}
+	}
+
 	if (!getStorage("USER_INFO")) return <Redirect to={"/auth"}/>
 	return (
 		<React.Fragment>
@@ -262,16 +274,17 @@ const VoteItemList = props => {
 								savedVote.map(vote => {
 									if (vote) return (
 										<Item
-											editedQuestionId={editedQuestionId}
-											handleSubmitNewQuestion={handleSubmitNewQuestion}
-											handleQuestionChange={handleQuestionChange}
 											vote={vote}
 											handleRemove={handleRemove}
-											handleUpdate={handleUpdate}
 											currentUserId={auth.uid}
 											currentTime={currentTime}
 											handleVoting={handleVoting}
 											handleSave={handleSave}
+											newOptions={newOptions}
+											editedOptionId={editedOptionId}
+											handleUpdateOption={handleUpdateOption}
+											handleOptionTitleChange={handleOptionTitleChange}
+											handleSubmitNewOptions={handleSubmitNewOptions}
 										/>
 									)
 									else return null;
@@ -289,16 +302,17 @@ const VoteItemList = props => {
 							votes.map(vote => {
 								if (vote) return (
 									<Item
-										editedQuestionId={editedQuestionId}
-										handleSubmitNewQuestion={handleSubmitNewQuestion}
-										handleQuestionChange={handleQuestionChange}
 										vote={vote}
 										handleRemove={handleRemove}
-										handleUpdate={handleUpdate}
 										currentUserId={auth.uid}
 										currentTime={currentTime}
 										handleVoting={handleVoting}
 										handleSave={handleSave}
+										newOptions={newOptions}
+										editedOptionId={editedOptionId}
+										handleUpdateOption={handleUpdateOption}
+										handleOptionTitleChange={handleOptionTitleChange}
+										handleSubmitNewOptions={handleSubmitNewOptions}
 									/>
 								)
 								else return null;
@@ -351,7 +365,7 @@ const VoteItemListWrapper = styled.div`
 
 const ItemList = styled.div`
 	display: flex;
-	flex : 0 0 25%;
+	justify-content: space-between;
 	flex-wrap: wrap;
 	min-width: 420px;
 `

@@ -178,7 +178,7 @@ const VoteItemList = props => {
 		}
 
 		await props.addVote(newVote)
-		window.location.reload();
+		// window.location.reload();
 	}
 
 

@@ -16,8 +16,6 @@ import App from './App';
 import rootReducer from './store/modules';
 import GlobalStyle from "./styles/globalStyles";
 
-// const devTools = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__() : null
-
 const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
 
 const rrfProps = {

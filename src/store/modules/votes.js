@@ -35,6 +35,7 @@ const getVotes = () => {
 					return { id : doc.id, ...doc.data() }
 				})
 				dispatch({type : GET_VOTES_SUCCESS, payload : votes})
+				window.location.reload();
 			})
 			.catch((error) => {
 				dispatch({type : GET_VOTES_FAILURE, payload : error})

@@ -10,11 +10,9 @@ import {Redirect} from "react-router-dom";
 import {signOut} from "../store/modules/auth";
 import {addSavedVote, getStorage, removeSavedVote, updateSavedVote} from "../utils/localStorage";
 import {toast} from "react-toastify";
-
 const dateformat = require("dateformat");
 
 const VoteItemList = props => {
-
 	const { getVotes, countVoting, votes, auth } = props;
 	const [state, setState] = useState({
 		question : '',
@@ -34,6 +32,7 @@ const VoteItemList = props => {
 	// 투표 질문 add 하기 (0)
 	// 시작 / 종료 선택하게 하기 (0)
 	const currentTime = Date.now();
+	console.log(state)
 
 	useEffect(() => {
 		async function getSavedVote() {
@@ -57,7 +56,6 @@ const VoteItemList = props => {
 				id : i + 1,
 				title : value,
 				voteUser : [],
-
 			}
 			setState({
 				...state,
@@ -70,7 +68,6 @@ const VoteItemList = props => {
 		const value = e.target.value;
 		const name = e.target.name;
 
-		console.log(value, name)
 		setState({
 			...state,
 			[name]: value
@@ -148,7 +145,7 @@ const VoteItemList = props => {
 			}
 		}
 
-	const handleAdd = (e) => {
+	const handleAdd = async (e) => {
 		e.preventDefault()
 
 		const newVote = {
@@ -181,14 +178,9 @@ const VoteItemList = props => {
 		}
 
 		props.addVote(newVote)
-		setState({
-			question: '',
-			description: '',
-			options: [{}, {}, {}]
-		})
-		setStartDate(dateformat(new Date(), "isoDate"));
-		setEndDate(dateformat(new Date(), "isoDate"));
+		window.location.reload();
 	}
+
 
 	const handleSave = (e) => {
 		e.preventDefault();

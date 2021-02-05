@@ -15,11 +15,14 @@ const VoteItemWrapper = styled.div`
 	background-color: #F2EDDF;
 	border-radius: 10px;
 	padding : 20px;
-	min-width: 350px;
+	width: 370px;
 `
 
 const VoteItem = styled.div`
 	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 `
 
 const VoteHeader = styled.div`
@@ -30,6 +33,7 @@ const VoteHeader = styled.div`
 const VoteQuestion = styled.h1`
 	font-size: 25px;
 	font-weight: 600;
+	line-height: 30px;
 `
 
 const VoteOptions = styled.div`

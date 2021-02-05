@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^12.1.10",
     "dateformat": "^4.5.1",
     "firebase": "^8.2.5",
+    "moment": "^2.14.1",
     "react": "^17.0.1",
     "react-datetime": "^3.0.4",
     "react-dom": "^17.0.1",
@@ -25,8 +26,7 @@
     "redux-firestore": "^0.14.0",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
-    "styled-reset": "^4.3.4",
-    "moment": "^2.14.1"
+    "styled-reset": "^4.3.4"
   },
   "scripts": {
     "start": "react-scripts start",

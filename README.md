@@ -11,7 +11,7 @@
 - Styling : [styled-components](https://github.com/styled-components/styled-components)
 - Database : [Firebase](https://github.com/firebase/)
 - Project Setup : [Create React App](https://github.com/facebook/create-react-app)
-- Build : [Vercel](https://github.com/vercel/vercel)
+- Production : [Vercel](https://github.com/vercel/vercel)
 
 ## 프로젝트 시연
 - Production : https://classting-assignment.vercel.app/

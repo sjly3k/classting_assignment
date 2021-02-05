@@ -169,7 +169,6 @@ const VoteItemList = props => {
 			description: state.description
 		}
 
-		console.log(newVote.options.find((option) => option === {}))
 		if (newVote.question === ""
 			|| newVote.description === ''
 			|| isNaN(newVote.startDate.seconds)
@@ -182,6 +181,13 @@ const VoteItemList = props => {
 		}
 
 		props.addVote(newVote)
+		setState({
+			question: '',
+			description: '',
+			options: [{}, {}, {}]
+		})
+		setStartDate(dateformat(new Date(), "isoDate"));
+		setEndDate(dateformat(new Date(), "isoDate"));
 	}
 
 	const handleSave = (e) => {

@@ -177,7 +177,7 @@ const VoteItemList = props => {
 			return;
 		}
 
-		props.addVote(newVote)
+		await props.addVote(newVote)
 		window.location.reload();
 	}
 

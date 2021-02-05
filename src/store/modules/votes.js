@@ -35,7 +35,6 @@ const getVotes = () => {
 					return { id : doc.id, ...doc.data() }
 				})
 				dispatch({type : GET_VOTES_SUCCESS, payload : votes})
-				window.location.reload();
 			})
 			.catch((error) => {
 				dispatch({type : GET_VOTES_FAILURE, payload : error})
@@ -59,6 +58,7 @@ const addVote = (vote) => {
 				}
 				dispatch({type : ADD_VOTE_SUCCESS, payload : addedVote})
 				toast.info("새로운 투표를 생성하셨습니다.")
+				window.location.reload();
 			})
 			.catch((error) => {
 				dispatch({type : ADD_VOTE_FAILURE, payload : error})

@@ -1,6 +1,7 @@
 # 클래스팅 과제 : 투표 시스템 만들기
 
 이 프로젝트는 클래스팅 과제입니다.
+![](/images/classting-assignment.png)
 
 ## 기술 스택
 

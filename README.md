@@ -1,6 +1,7 @@
 # 클래스팅 과제 : 투표 시스템 만들기
 
 이 프로젝트는 클래스팅 과제입니다.
+![](/images/classting-assignment.png)
 
 ## 기술 스택
 
@@ -10,7 +11,7 @@
 - Styling : [styled-components](https://github.com/styled-components/styled-components)
 - Database : [Firebase](https://github.com/firebase/)
 - Project Setup : [Create React App](https://github.com/facebook/create-react-app)
-- Build : [Vercel](https://github.com/vercel/vercel)
+- Production : [Vercel](https://github.com/vercel/vercel)
 
 ## 프로젝트 시연
 - Production : https://classting-assignment.vercel.app/

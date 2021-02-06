@@ -23,7 +23,7 @@ const VOTING_ACTION = 'votes/VOTING_ACTION';
 const VOTING_ACTION_SUCCESS = 'votes/VOTING_ACTION_SUCCESS';
 const VOTING_ACTION_FAILURE = 'votes/VOTING_ACTION_FAILURE';
 
-const getVotes = () => {
+export const getVotes = () => {
 	return (dispatch) => {
 		dispatch({type : GET_VOTES})
 		firebase
@@ -42,7 +42,7 @@ const getVotes = () => {
 	}
 }
 
-const addVote = (vote) => {
+export const addVote = (vote) => {
 	return (dispatch) => {
 		dispatch({type : ADD_VOTE});
 		firebase
@@ -67,8 +67,7 @@ const addVote = (vote) => {
 	}
 }
 
-const updateVote = (id, options) => {
-
+export const updateVote = (id, options) => {
 	return (dispatch) => {
 		dispatch({type : UPDATE_VOTE});
 		firebase
@@ -89,7 +88,7 @@ const updateVote = (id, options) => {
 	}
 }
 
-const removeVote = (id) => {
+export const removeVote = (id) => {
 	return (dispatch) => {
 		dispatch({type : REMOVE_VOTE});
 		firebase
@@ -109,7 +108,7 @@ const removeVote = (id) => {
 	}
 }
 
-const countVoting = (docId, newOption) => {
+export const countVoting = (docId, newOption) => {
 	return (dispatch) => {
 		dispatch({type : VOTING_ACTION})
 		firebase
@@ -220,5 +219,3 @@ export default handleActions({
 		voteError : error
 	}),
 }, initialState)
-
-export { getVotes, addVote, removeVote, updateVote, countVoting }

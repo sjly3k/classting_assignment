@@ -16,7 +16,7 @@ const SIGNUP_SUCCESS = 'auth/SIGNUP_SUCCESS'
 const SIGNUP_ERROR = 'auth/SIGNUP_ERROR'
 
 // 로그인
-const signIn = credentials => {
+export const signIn = credentials => {
 	return (dispatch) => {
 		dispatch({type : SIGNIN});
 		firebase
@@ -35,7 +35,7 @@ const signIn = credentials => {
 };
 
 // 로그아웃
-const signOut = () => {
+export const signOut = () => {
 	return (dispatch) => {
 		dispatch({type : SIGNOUT});
 		firebase
@@ -53,7 +53,7 @@ const signOut = () => {
 };
 
 // 회원가입
-const signUp = newUser => {
+export const signUp = newUser => {
 	return (dispatch) => {
 		dispatch({type : SIGNUP});
 		firebase
@@ -120,5 +120,3 @@ export default handleActions({
 		})
 	},
 }, initialState)
-
-export { signIn, signOut, signUp }

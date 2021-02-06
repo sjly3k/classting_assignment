@@ -181,14 +181,16 @@ const Item = ({
 				</VoteItem>
 				<HandleButtonWrapper>
 				{
-					currentUserId === userId ? (
+					currentUserId === userId && currentTime < newEndDate ? (
 						<CurrentUsrButtonWrapper>
 							<Button onClick={handleUpdateOption} value={"Update Option"} id={id} role={"update"}/>
 							<Button onClick={handleRemove} value={"Remove Vote"} id={id} role={"remove"}/>
 						</CurrentUsrButtonWrapper>
 					) : (null)
 				}
-					<Button onClick={handleSave} value={"Save Vote"} id={id} role={"save"}/>
+				{
+					currentTime < newEndDate ? (<Button onClick={handleSave} value={"Save Vote"} id={id} role={"save"}/>) : (null)
+				}
 				</HandleButtonWrapper>
 
 				<ModalSection onClick={handleModalClick}>

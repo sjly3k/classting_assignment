@@ -166,6 +166,11 @@ const VoteItemList = props => {
 			description: state.description
 		}
 
+		if ((!isNaN(newVote.startDate.seconds) && !isNaN(newVote.endDate.seconds)) && newVote.startDate.seconds > newVote.endDate.seconds) {
+			toast.error("투표 시작 날짜가 투표 종료 날짜보다 빠를 수 없습니다.");
+			return;
+		}
+
 		if (newVote.question === ""
 			|| newVote.description === ''
 			|| isNaN(newVote.startDate.seconds)

@@ -15,7 +15,7 @@ const VoteItemWrapper = styled.div`
 	background-color: #F2EDDF;
 	border-radius: 10px;
 	padding : 20px;
-	width: 370px;
+	width: 570px;
 `
 
 const VoteItem = styled.div`
